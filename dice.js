@@ -176,10 +176,10 @@ function attack(cell1, cell2) {
     // sum the results.
     // higher wins.
 
-    log("attack(" + cell1 + "," + cell2 + ")");
+//    log("attack(" + cell1 + "," + cell2 + ")");
     var numDice1 = state.cells[cell1].number;
     var numDice2 = state.cells[cell2].number;
-    log(sprintf("** numDice1 = %s, numDice2 = %s", numDice1, numDice2));
+//    log(sprintf("** numDice1 = %s, numDice2 = %s", numDice1, numDice2));
 
     var roll1 = roll(numDice1);
     var roll1Sum = array_sum(roll1);
@@ -221,10 +221,10 @@ function attack(cell1, cell2) {
 
     }
 //    log(sprintf("++ whoWon=%s, numDice1=%s, numDice2=%s", whoWon, numDice1, numDice2));
+//        status("Ready");
 
     setTimeout2(function () {
         commitAttackResults(whoWon, numDice1, numDice2, cell1, cell2);
-        status("Ready");
         state.clickEnabled = true;
     }, delay);
 
@@ -309,7 +309,7 @@ function cellClick(cell) {
 }
 
 function status(message) {
-    log(message);
+//    log(message);
     document.getElementById("status").innerHTML = message
 }
 
@@ -317,7 +317,7 @@ function error(message) {
     console.error(message)
 }
 function deselectCells() {
-    log("deselectCells()")
+//    log("deselectCells()")
     if (state.selected2) {
         deselectCell(state.selected2)
     }
@@ -327,7 +327,7 @@ function deselectCells() {
 }
 
 function deselectCell(cell) {
-    log(sprintf("deselectCell(%s)", cell))
+//    log(sprintf("deselectCell(%s)", cell))
     var player = state.cells[cell].player;
     if (state.selected1 !== cell && state.selected2 !== cell) {
         error(sprintf("deselectCell(%s) called and neither are selected, state.selected1=%s state.selected2=%s", cell, state.selected1, state.selected2));
@@ -350,11 +350,11 @@ function deselectCell(cell) {
 }
 
 function selectCell(cell) {
-    log(sprintf("selectCell(%s)", cell));
-    log(sprintf("selected1=%s selected2=%s", state.selected1, state.selected2));
+//    log(sprintf("selectCell(%s)", cell));
+//    log(sprintf("selected1=%s selected2=%s", state.selected1, state.selected2));
     var player = state.cells[cell].player;
     if (state.selected1 === cell || state.selected2 === cell) { // deselect cell
-        log("Both cells selected, calling deselectCell");
+//        log("Both cells selected, calling deselectCell");
         deselectCell(cell);
         return true;
     }
@@ -379,7 +379,7 @@ function commitAttackResults(whoWon, dice1, dice2, cell1, cell2) {
 //    var dice1 = results[1];
 //    var dice2 = results[2];
 //    deselectCells()
-    log(sprintf("results received, whowon=%s dice1=%s dice2=%s", whoWon, dice1, dice2));
+//    log(sprintf("results received, whowon=%s dice1=%s dice2=%s", whoWon, dice1, dice2));
 
     if (whoWon === state.currentPlayer) { // attacker won
         // TODO: implement concept of player 1 vs. player 2 playing
@@ -401,12 +401,12 @@ function attackFinished() {
     // TODO - check if the human player has won!
 //    log("need to check if won");
     if (state.player[2].maxAdjCellsNumber === 0) {
-        log("You won!!!");
+//        log("You won!!!");
         document.getElementById("screen").innerHTML = "<h1>You Won!!!</h1>"
         state.gameOver = true;
     }
     if (state.player[1].maxAdjCellsNumber === 0) {
-        log("You lost!!!");
+//        log("You lost!!!");
         document.getElementById("screen").innerHTML = "<h1>You Lost!!!</h1>"
         state.gameOver = true;
     }
@@ -414,7 +414,7 @@ function attackFinished() {
 }
 
 function updateCell(cell, player, number, selected) {
-    log(sprintf("updateCell(%s,%s,%s,%s)", cell, player, number, selected));
+//    log(sprintf("updateCell(%s,%s,%s,%s)", cell, player, number, selected));
     if (selected === undefined) {
         selected = false;
 //        log("updateCell setting selected to false")
@@ -530,7 +530,7 @@ function countSpaces(player) {
 
 
     // iterate through board, count max # of adjacent spaces and return that number
-    log("countSpaces:" + player);
+//    log("countSpaces:" + player);
     if (state.interval) {
         error("****** state.interval is set!!! ******");
         return [0, 0]
@@ -579,18 +579,21 @@ function endTurn() {
     if (state.gameOver) {
         return;
     }
-    if (!state.endTurnEnabled) {
-        return;
-    }
+//    if (!state.endTurnEnabled) {
+//        log("exiting endTurn as !state.endturnEnabled")
+//        return;
+//    }
+    log("End Turn");
+
     endTurnDisable();
     deselectCells();
-    log("End Turn");
     allocateArmies(state.currentPlayer);
     changeSides()
 
 }
 
 function changeSides() {
+    log("changeSides()")
     var player = state.currentPlayer;
     if (player+1 > state.players) {
         player = 1
@@ -607,7 +610,7 @@ function changeSides() {
 
 // allocate armies randomly among the contiguous cells
 function allocateArmies(player) {
-    log(sprintf("allocateArmies(%s", player))
+//    log(sprintf("allocateArmies(%s", player))
     var armiesToAllocate = state.player[player].maxAdjCellsNumber;
     var cells = state.player[player].maxAdjCells;
     var cell;
@@ -615,20 +618,20 @@ function allocateArmies(player) {
 
     for (var i = 0; i < armiesToAllocate; i++) {
         numRounds = state.player[player].maxAdjCellsNumber * 3;
-        log(sprintf("numrounds = %s", numRounds))
+//        log(sprintf("numrounds = %s", numRounds))
 
         // loop until you find a random cell to allocate to.
         while (true) {
             var cellNum = randomNumber(cells.length) - 1;
-            log(sprintf("cellNum=%s", cellNum));
+//            log(sprintf("cellNum=%s", cellNum));
             cell = cells[cellNum];
-            log(sprintf("cell=%s", cell));
-            log(sprintf("state.cells[%s].number=%s",cell, state.cells[cell].number))
+//            log(sprintf("cell=%s", cell));
+//            log(sprintf("state.cells[%s].number=%s",cell, state.cells[cell].number))
             if (state.cells[cell].number < state.maxArmiesPerCell) {
                 updateCell(cell, player, state.cells[cell].number + 1);
                 break
             } else {
-                log(sprintf("couldn't allocate at cell %s, one less round %s", cell, numRounds))
+//                log(sprintf("couldn't allocate at cell %s, one less round %s", cell, numRounds))
                 numRounds -= 1;
             }
             if (!numRounds) {
@@ -638,7 +641,7 @@ function allocateArmies(player) {
                 // numRounds is a backstop -- it will loop 3x the num of cells to ensure each has a chance to get the army
                 // and if an army can't be found, assume all are full - and break out of the loop.
                 // TODO: rewrite this in a better way...
-                log("numrounds == 0, breaking out of loop")
+//                log("numrounds == 0, breaking out of loop")
                 break;
 
             }
@@ -646,57 +649,6 @@ function allocateArmies(player) {
     }
 }
 
-//function computerTurn(player) {
-//    state.queue = []
-//    status("The computer is considering it's options...")
-//    // find cells where I have more players than the enemies adjacent cells
-//    var maxAdjCells = state.player[player].maxAdjCells
-//    for (var i=0; i < maxAdjCells.length; i++) {
-//        cell = maxAdjCells[i]
-//        var neighbors = state.cells[cell].neighbors
-//        for (var n=0; n < neighbors.length; n++) {
-//            var enemy = neighbors[n]
-//            if (
-//                (state.cells[enemy].player !== player && state.cells[enemy].number < state.cells[cell].number) ||
-//                    (state.cells[enemy].player !== player && state.cells[enemy].number === state.cells[cell].number && state.cells[enemy].number === state.maxArmiesPerCell)
-//                ) {
-//                // ATTACK!!!
-//                state.queue.push(["attack", cell, enemy])
-//                log(sprintf("CPU to queue attack from %s to %s", cell, enemy))
-//                break;
-//            }
-//
-//        }
-//    }
-//    state.interval = setInterval(aiAttack, 5000)
-//}
-//
-//function processQueue() {
-////    var delay = 0;
-////    var delayAdditional = 6000;
-//    log("processQueue")
-//    var q = state.queue.shift()
-//    if (q) {
-//        log(sprintf("%s %s %s", q[0], q[1], q[2]))
-//        if (q[0] === 'attack') {
-//            var cell1 = q[1]
-//            var cell2 = q[2]
-//            selectCell(cell1);
-//            selectCell(cell2);
-//            attack(cell1, cell2);
-//        }
-//    } else {
-//        endTurn();
-//        if (state.interval) {
-//            clearInterval(state.interval)
-//            log("Interval Cleared")
-//            state.interval = 0
-//            state.endTurnEnabled = true
-////            endTurn()
-//        }
-//        return
-//    }
-//}
 
 // TODO - rewrite this function to determine which is the best cell to attack first, vs first one I find.
 function aiAttack() {
@@ -724,30 +676,22 @@ function aiAttack() {
                     cellAttackFrom = cell;
                     cellAttackTo = enemy;
                     cellAttackRatio = ratio;
-                    log(sprintf("attack from %s to %s as ratio %s is better than %s", cell, enemy, ratio, cellAttackRatio));
+//                    log(sprintf("attack from %s to %s as ratio %s is better than %s", cell, enemy, ratio, cellAttackRatio));
                 }
 
-//                selectCell(cell);
-//                selectCell(enemy);
-//                attack(cell, enemy);
-//                if (!state.interval) {
-//                    state.interval = setInterval(aiAttack, 10000);
-//                    log(sprintf("setInterval(aiAttack, 5000)=%s",state.interval))
-//                }
-//                return
             }
 
         }
     }
     if (cellAttackFrom && cellAttackTo) {
-        log(sprintf("attack from %s to %s with ratio %s", cell, enemy, cellAttackRatio));
+//        log(sprintf("attack from %s to %s with ratio %s", cell, enemy, cellAttackRatio));
 
         selectCell(cellAttackFrom);
         selectCell(cellAttackTo);
         attack(cellAttackFrom, cellAttackTo);
         if (!state.interval) {
             state.interval = setInterval(aiAttack, 7000);
-            log(sprintf("setInterval(aiAttack, 7000)=%s",state.interval))
+//            log(sprintf("setInterval(aiAttack, 7000)=%s",state.interval))
         }
     } else {
         log("No more cells found to attack!");
@@ -766,7 +710,7 @@ function aiAttack() {
 }
 
 function setTimeout2(command, delay) {
-    log(sprintf("setTimeout2(%s, %s)", command, delay));
+//    log(sprintf("setTimeout2(%s, %s)", command, delay));
     setTimeout(command, delay)
 }
 
@@ -775,6 +719,8 @@ function endTurnEnable() {
 
 //    log(arguments.callee.name)
     state.endTurnEnabled = true
+    state.clickEnabled = true
+    document.getElementById('buttonEndTurn').disabled = false
 }
 
 function endTurnDisable() {
@@ -783,6 +729,9 @@ function endTurnDisable() {
 //    log(arguments.callee.name)
 //    console.trace()
     state.endTurnEnabled = false
+    state.clickEnabled = false
+
+    document.getElementById('buttonEndTurn').disabled = true
 }
 
 
