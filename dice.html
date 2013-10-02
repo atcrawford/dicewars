@@ -1,0 +1,83 @@
+<head>
+    <style type="text/css">
+        .diceTable {
+            width: 100%;
+        }
+
+        .diceTableStats {
+            /*vertical-align: center;*/
+            /*width: 100%;*/
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .diceCell {
+            background: white;
+        }
+
+        .dicePlayer1Selected {
+            background: darkgreen;
+        }
+
+        .dicePlayer1 {
+            background: lightgreen;
+        }
+
+        .dicePlayer2Selected {
+            background: blue;
+        }
+
+        .dicePlayer2 {
+            background: aqua;
+        }
+
+            /*
+                    table, td, th {
+                        border: 1px solid green;
+                    }
+            */
+
+        td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="screen">
+
+    <table border="1" class="diceTable" id="idDiceTable">
+        <tr>
+            <td>tbd</td>
+        </tr>
+
+    </table>
+
+    <div id="update" style="text-align:center">
+        1. Click your area. 2. Click neighbor to attack.
+        <button type=button id="buttonEndTurn" onclick="endTurn()">End Turn</button>
+    </div>
+
+    <p></p>
+    <table border="0" class="diceTableStats" id="playerStats">
+        <tr>
+            <td>tbd</td>
+        </tr>
+    </table>
+
+    <p></p>
+
+    <div id="status" style="text-align: center"></div>
+
+
+</div>
+
+<script src="utils.js"></script>
+<script src="dice.js"></script>
+
+<script type="text/javascript">
+    window.onload = initGame()
+</script>
+
+
+</body>
